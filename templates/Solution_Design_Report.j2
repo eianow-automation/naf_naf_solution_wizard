@@ -1,0 +1,146 @@
+{# Solution_Design_Report.j2 #}
+# Solution Design Document
+
+Generated: {{ generated_timestamp }}
+
+## Overview of Automation Initiative
+# {{ initiative["title"] or '' }}
+
+## Scope
+{{ initiative["description"] or '' }}
+
+## Out of scope
+{{ initiative["out_of_scope"] or '' }}
+
+{% if initiative["expected_use"] %}
+## Expected use
+{{ initiative["expected_use"] or '' }}
+{% endif -%}
+
+## Highlights
+{% if highlights %}
+{{ highlights or '' }}
+{% else %}
+_No specific highlights provided._
+{% endif %}
+
+## Presentation
+{% if presentation["selections"] %}
+- Selected user types: {{ (presentation["selections"]["users"] or [])|join(', ') }}
+- Interaction modes: {{ (presentation["selections"]["interactions"] or [])|join(', ') }}
+- Presentation tools: {{ (presentation["selections"]["tools"] or [])|join(', ') }}
+- Authentication mechanisms: {{ (presentation["selections"]["auth"] or [])|join(', ') }}
+{% else %}
+- {{ presentation["users"] or '' }}
+- {{ presentation["interaction"] or '' }}
+- {{ presentation["tools"] or '' }}
+- {{ presentation["auth"] or '' }}
+{% endif %}
+
+## Intent
+{% if intent["selections"] %}
+- Intent development format(s): {{ (intent["selections"]["development"] or [])|join(', ') }}
+- Intent delivery format(s): {{ (intent["selections"]["provided"] or [])|join(', ') }}
+{% else %}
+- {{ intent["development"] or '' }}
+- {{ intent["provided"] or '' }}
+{% endif %}
+
+## Observability
+{% if observability["selections"] %}
+- Observability method(s): {{ (observability["selections"]["methods"] or [])|join(', ') }}
+- Go/No-Go text: {{ observability["selections"]["go_no_go_text"] or '' }}
+{% if observability["selections"]["additional_logic_enabled"] %}
+- Additional logic details: {{ observability["selections"]["additional_logic_text"] or '' }}
+{% endif %}
+- Observability tool(s): {{ (observability["selections"]["tools"] or [])|join(', ') }}
+{% else %}
+- {{ observability["methods"] or '' }}
+- {{ observability["go_no_go"] or '' }}
+{% if observability["additional_logic"] %}
+- Additional gating logic: {{ observability["additional_logic"] or '' }}
+{% endif %}
+- {{ observability["tools"] or '' }}
+{% endif %}
+
+## Orchestration
+{{ orchestration["summary"] or '' }}
+
+{% set sel = orchestration["selections"] if orchestration["selections"] else {} %}
+- Orchestration used: {{ sel["choice"] if sel and ('choice' in sel) and sel["choice"] else 'No' }}
+{% if sel and ('details' in sel) and sel["details"] %}
+- Orchestration details: {{ sel["details"] }}
+{% endif %}
+
+## Collector
+{% if collector["selections"] %}
+- Collection method(s): {{ (collector["selections"]["methods"] or [])|join(', ') }}
+- Authentication mechanism(s): {{ (collector["selections"]["auth"] or [])|join(', ') }}
+- Traffic handling: {{ (collector["selections"]["handling"] or [])|join(', ') }}
+- Normalization: {{ (collector["selections"]["normalization"] or [])|join(', ') }}
+- Target devices: {{ collector["selections"]["devices"] or '' }}
+- Metrics per second: {{ collector["selections"]["metrics_per_sec"] or '' }}
+- Collection cadence: {{ collector["selections"]["cadence"] or '' }}
+- Collection tool(s): {{ (collector["selections"]["tools"] or [])|join(', ') }}
+{% else %}
+- {{ collector["methods"] or '' }}
+- {{ collector["auth"] or '' }}
+{% set csel = collector["selections"] if collector["selections"] else {} %}
+{% set handling_sel = csel["handling"] if csel and ('handling' in csel) else [] %}
+{% set norm_sel = csel["normalization"] if csel and ('normalization' in csel) else [] %}
+{% if 'None' in handling_sel %}
+- The software will have no traffic handling provisions.
+{% else %}
+- {{ collector["handling"] or '' }}
+{% endif %}
+{% if 'None' in norm_sel %}
+- The software will have no normalization provisions for collected data.
+{% else %}
+- {{ collector["normalization"] or '' }}
+{% endif %}
+- {{ collector["scale"] or '' }}
+- {{ collector["tools"] or '' }}
+{% endif %}
+
+## Executor
+{% if executor["selections"] %}
+- Execution method(s): {{ (executor["selections"]["methods"] or [])|join(', ') }}
+{% else %}
+- {{ executor["methods"] or '' }}
+{% endif %}
+
+# Dependencies & External Interfaces
+{% if dependencies and dependencies|length > 0 %}
+{% for dep in dependencies %}
+- {{ dep["name"] }}{% if dep["details"] %}: {{ dep["details"] }}{% endif %}
+{% endfor %}
+{% else %}
+- None defined.
+{% endif %}
+
+# Staffing, Timeline, & Milestones
+- Staff {{ timeline["staff_count"] or '' }} • Start {{ timeline["start_date"] or '' }} • Total {{ timeline["total_business_days"] or '' }} bd • Completion {{ timeline["projected_completion"] or '' }}
+
+{% if timeline["items"] and timeline["items"]|length > 0 %}
+{% for item in timeline["items"] %}
+- {{ item["name"] }}: {{ item["start"] }} → {{ item["end"] }} ({{ item["duration_bd"] }} bd){% if item["notes"] %} — {{ item["notes"] }}{% endif %}
+{% endfor %}
+{% else %}
+_No detailed milestones defined._
+{% endif %}
+
+### Gantt Chart
+{% if gantt_image_path %}
+![Project Gantt Chart]({{ gantt_image_path }})
+{% else %}
+_Gantt chart image not available._
+{% endif %}
+
+## Staffing Plan
+{% if timeline["staffing_plan_md"] %}
+{{ timeline["staffing_plan_md"] }}
+{% elif staffing_plan %}
+{{ staffing_plan }}
+{% else %}
+_No detailed staffing plan provided._
+{% endif %}
