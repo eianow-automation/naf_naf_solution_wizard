@@ -241,8 +241,11 @@ def main():
             )
             uploaded = st.file_uploader("Upload naf_report_*.json", type=["json"], key="wizard_upload_json")
             if uploaded is not None:
-                if not uploaded.name.lower().endswith(".json"):
+                fname = (uploaded.name or "").strip()
+                if not fname.lower().endswith(".json"):
                     st.error("Invalid file. Please upload a .json file exported from this tool.")
+                elif not fname.lower().startswith("naf_report_"):
+                    st.info("Tip: Expected a file named like 'naf_report_*.json' (use the Save Solution Artifacts download). Rename the file or download a fresh export.")
                 else:
                     if st.button("Apply uploaded JSON", type="primary", key="wizard_apply_upload_btn"):
                         try:
@@ -2028,10 +2031,9 @@ def main():
     except Exception:
         pass
 
-    # Dependencies block in highlights (suppress if still defaults)
+    # Dependencies: do not render immediately on the main page; include only in the generated summary
     deps = payload.get("dependencies", [])
     if deps:
-        # Build slim list for default detection
         deps_slim = [
             {
                 "name": (d or {}).get("name"),
@@ -2040,7 +2042,6 @@ def main():
             for d in deps
             if (d or {}).get("name")
         ]
-        # Default selections present at first render
         default_deps = [
             {"name": "Network Infrastructure", "details": ""},
             {"name": "Revision Control system", "details": "GitHub"},
@@ -2052,19 +2053,8 @@ def main():
             )
 
         looks_default_deps = _sorted(deps_slim) == _sorted(default_deps)
-
-        dep_lines = []
         if not looks_default_deps:
-            for d in deps_slim:
-                nm = d.get("name")
-                dt = d.get("details")
-                if nm:
-                    dep_lines.append(md_line(f"{nm}: {dt}" if dt else f"{nm}"))
-
-        if dep_lines:
             any_content = True
-            st.markdown("**Dependencies & External Interfaces**")
-            st.markdown("\n".join(dep_lines))
 
     if not any_content:
         # Use same gate as sidebar to decide whether to show the reminder
@@ -2238,13 +2228,9 @@ def main():
 
         summary_md = ("".join(summary_parts)).strip()
         if summary_md:
-            st.markdown("**Detailed solution description (Markdown supported)**")
-            st.text_area(
-                "Detailed solution description (Markdown supported)",
-                summary_md,
-                height=220,
-                key="_wizard_summary_md_display",
-            )
+            with st.expander("Detailed solution description (Markdown supported)", expanded=False):
+                st.caption("Preview of the report that will be included in the download.")
+                st.markdown(summary_md)
 
     if any_content:
         # Build a comprehensive payload including defaults for any missing sections
@@ -2424,7 +2410,7 @@ def main():
         # SDD Markdown rendered via Jinja2 template
         sdd_ts = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         templates_dir = (
-            Path(__file__).resolve().parent.parent / "templates"
+            Path(__file__).resolve().parent / "templates"
         ).as_posix()
         try:
             env = Environment(loader=FileSystemLoader(templates_dir))
@@ -2519,6 +2505,16 @@ def main():
         except Exception:
             pass
 
+        # Inform the user when PNG export failed (typically missing kaleido)
+        try:
+            has_rows = bool(rows)
+        except Exception:
+            has_rows = False
+        if has_rows and gantt_png_bytes is None:
+            st.info(
+                "Gantt PNG could not be generated. To include a PNG in the ZIP, install the 'kaleido' package (e.g., pip install -U kaleido) and rerun."
+            )
+
         # Create ZIP in-memory
         zip_buf = io.BytesIO()
         with zipfile.ZipFile(zip_buf, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
@@ -2549,8 +2545,6 @@ def main():
             zf.writestr(md_name, sdd_doc_md)
             if gantt_png_bytes:
                 zf.writestr("Gantt.png", gantt_png_bytes)
-            elif gantt_html_bytes:
-                zf.writestr("Gantt.html", gantt_html_bytes)
 
         zip_bytes = zip_buf.getvalue()
         # Sidebar export (single ZIP download) only when summary has meaningful content
@@ -2669,12 +2663,10 @@ def main():
 if __name__ == "__main__":
     main()
     try:
-        import streamlit as st
-
         st.markdown("---")
         st.caption(
             "Disclaimer: Results depend entirely on your inputs. Validate data and use professional judgment."
         )
-        st.page_link("disclaimer.py", label="Read full disclaimer", icon="⚠️")
+        st.markdown("[Read full disclaimer](disclaimer.py) ⚠️")
     except Exception:
         pass
