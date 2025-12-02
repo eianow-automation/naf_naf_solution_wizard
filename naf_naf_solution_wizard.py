@@ -3059,7 +3059,11 @@ def main():
             thickness=6,
             margin="0.75rem 0 0.25rem 0",
         )
-        st.image("images/naf_icon.png", width=90)
+        _naf_logo_col, _naf_link_col = st.columns([1, 2])
+        with _naf_logo_col:
+            st.image("images/naf_icon.png", width=90)
+        with _naf_link_col:
+            st.markdown("[🏠 NAF Home](https://networkautomation.forum/)")
 
 
 
