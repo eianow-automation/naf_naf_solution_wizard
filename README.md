@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="images/naf_icon.png" alt="NAF" width="80" style="vertical-align:middle;margin-right:12px;" />
+  <img src="images/EIA_Favicon.png" alt="EIA" width="80" style="vertical-align:middle;" />
+</p>
+
 # NAF Solution Wizard
 
 An interactive Streamlit app to design network automation solutions using the NAF framework. It guides you through Presentation, Intent, Observability, Orchestration, Collector, and Executor sections, plus Dependencies and a planning Timeline, then generates a consolidated report and a bundled ZIP containing:
