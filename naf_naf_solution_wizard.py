@@ -1207,11 +1207,8 @@ def main():
 
     # Intent section
     with st.expander("Intent", expanded=False):
-        """
-        Intent inputs: what will be developed vs what exists today.
-
-        Populates payload.intent and influences highlights and export.
-        """
+        # Intent inputs: what will be developed vs what exists today.
+        # Populates payload.intent and influences highlights and export.
 
         st.markdown(
             """
