@@ -11,6 +11,11 @@ An interactive Streamlit app to design network automation solutions using the NA
 - Markdown report (naf_report_*.md) generated from your inputs
 - Optional Gantt.png (if Plotly+kaleido is available)
 
+## Preview the Solution Wizard on Streamlit App page
+
+Quickly try the hosted app here:
+https://naf-network-automation-framework-wizard.streamlit.app/
+
 ## Features
 
 - Guided expanders with sensible defaults; suppresses placeholder text in highlights
