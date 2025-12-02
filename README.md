@@ -13,8 +13,9 @@ An interactive Streamlit app to design network automation solutions using the NA
 
 ## Preview the Solution Wizard on Streamlit App page
 
-Quickly try the hosted app here:
-https://naf-network-automation-framework-wizard.streamlit.app/
+Quickly try the Streamlit hosted app [here](https://naf-network-automation-framework-wizard.streamlit.app) to see if it is worth installing!
+
+<a href="https://naf-network-automation-framework-wizard.streamlit.app/"><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" alt="Open in Streamlit" width="80" /></a>
 
 ## Features
 
