@@ -3131,18 +3131,26 @@ def main():
         )
         _naf_logo_col, _naf_link_col = st.columns([1, 2])
         with _naf_logo_col:
-            st.image("images/naf_icon.png", width=90)
-        with _naf_link_col:
-            st.markdown("[🏠 NAF Home](https://networkautomation.forum/)")
+            pass
 
 
 if __name__ == "__main__":
     main()
-    try:
-        st.markdown("---")
-        st.caption(
-            "Disclaimer: Results depend entirely on your inputs. Validate data and use professional judgment."
-        )
-        st.markdown("[Read full disclaimer](disclaimer.py) ⚠️")
-    except Exception:
-        pass
+st.markdown("---")
+st.caption(
+    "Disclaimer: Results depend entirely on your inputs. Validate data and use professional judgment."
+)
+
+with st.expander("⚠️ Read full disclaimer", expanded=False):
+    st.markdown(
+        """
+        The calculations, outputs, and recommendations presented by this application are for informational purposes only. 
+        Results are entirely dependent on the inputs provided by the user and any assumptions entered. 
+        It is the user's responsibility to validate all inputs, review the outputs for accuracy and suitability, and apply appropriate professional judgment before making decisions based on these results.
+        
+        By using this application, you acknowledge and agree that:
+        - You are solely responsible for the data you enter and for any conclusions or decisions you draw from the results.
+        - The authors and contributors make no warranties, express or implied, regarding accuracy, completeness, or fitness for a particular purpose.
+        - The authors and contributors shall not be liable for any losses or damages arising from use of or reliance on the results.
+        """
+    )
