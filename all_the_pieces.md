@@ -16,7 +16,7 @@ You know...all the things that could make a business or service impacting automa
 
 ### Budgets & Business Case
 
-It is no accident that just before AC4, [EIA's leadership series](https://www.eianow.works/resources/category/Management) by [Anthony Martin](https://www.linkedin.com/in/anthony-martin-99a1345/) published "[Budget Cognizanze](https://www.eianow.works/resources/budget-cognizance)" or "[How Butch & Sundance failed to get their automation project approved and so turned to a life of crime](https://www.eianow.works/resources/budget-cognizance)".   Not alot of interest.  An article about effective methods of irradicating navel lint would probably have gotten more traction with the network engineering community.
+It is no accident that just before AC4, [EIA's leadership series](https://www.eianow.works/resources/category/Management) by [Anthony Martin](https://www.linkedin.com/in/anthony-martin-99a1345/) published "[Budget Cognizanze](https://www.eianow.works/resources/budget-cognizance)" or "[How Butch & Sundance failed to get their automation project approved and so turned to a life of crime](https://www.eianow.works/resources/budget-cognizance)".   Despite its timely message, the article attracted limited attention. A comprehensive history of corporate expense policy might have generated more interest among the network engineering community.
 
 So now we turn to the AutoCon4 keynote by Jeff Gray from Gluware who opens up AC4 with the budget perspective and pragmatic examples of how to build your business case.  Another gutsy move.  I mean the Leadership track OK but the Keynote?!   The next keynote might as well be about documentation!
 
@@ -66,8 +66,3 @@ We have put together a little App to help you craft this business case narrative
 You can preview it [here](https://naf-network-automation-framework-wizard.streamlit.app/) on Streamlit.app or spin it up yourself from [this repository](https://github.com/eianow-automation/naf_naf_solution_wizard).
 
 
-
-
-https://github.com/eianow-automation/naf_naf_solution_wizard
-
-https://naf-network-automation-framework-wizard.streamlit.app/
