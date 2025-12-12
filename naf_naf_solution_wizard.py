@@ -139,7 +139,7 @@ def _join(items):
     return join_human(items)
 
 
-def main():
+def solution_wizard_main():
     """
     Solution Wizard (NAF Framework) interactive page
 
@@ -177,6 +177,8 @@ def main():
     # Colors
     hr_color_dict = hr_colors()
 
+    #--------------- START of SIDEBAR -----------------
+    # Sidebar content (branding and external links only)
     with st.sidebar:
         col_logo, col_links = st.columns([1, 2])
         with col_logo:
@@ -193,19 +195,21 @@ def main():
             thickness=6,
             margin="0.5rem 0",
         )
-        with st.expander("Load Saved Solution Wizard (JSON)", expanded=False):
-            # Sidebar import/reset controls.
-            #
-            # - Reset to defaults: clears wizard-related session state and restores defaults.
-            # - Upload naf_report_*.json: allows Merge/Overwrite to rehydrate a previous session.
-            # - Filename must match naf_report_*.json; otherwise show guidance.
 
-            # Reset to defaults
-            if st.button(
-                "Reset to defaults",
-                use_container_width=True,
-                key="wizard_reset_defaults_btn",
-            ):
+    # JSON upload/reset controls now live in the main page body
+    with st.expander("Load Saved Solution Wizard (JSON)", expanded=False):
+        # Sidebar import/reset controls.
+        #
+        # - Reset to defaults: clears wizard-related session state and restores defaults.
+        # - Upload naf_report_*.json: allows Merge/Overwrite to rehydrate a previous session.
+        # - Filename must match naf_report_*.json; otherwise show guidance.
+
+        # Reset to defaults
+        if st.button(
+            "Reset to defaults",
+            use_container_width=True,
+            key="wizard_reset_defaults_btn",
+        ):
                 prefixes = (
                     "pres_",
                     "intent_",
@@ -316,34 +320,34 @@ def main():
                 st.session_state["orch_details_text"] = ""
                 st.rerun()
 
-            # Sample JSON download removed per request
+        # Sample JSON download removed per request
 
-            # Merge vs Overwrite behavior
-            merge_mode = st.radio(
-                "When applying uploaded JSON",
-                ["Merge", "Overwrite"],
-                horizontal=True,
-                key="wizard_merge_mode",
-            )
-            uploaded = st.file_uploader(
-                "Upload naf_report_*.json", type=["json"], key="wizard_upload_json"
-            )
-            if uploaded is not None:
-                fname = (uploaded.name or "").strip()
-                if not fname.lower().endswith(".json"):
-                    st.error(
-                        "Invalid file. Please upload a .json file exported from this tool."
-                    )
-                elif not fname.lower().startswith("naf_report_"):
-                    st.info(
-                        "Tip: Expected a file named like 'naf_report_*.json' (use the Save Solution Artifacts download). Rename the file or download a fresh export."
-                    )
-                else:
-                    if st.button(
-                        "Apply uploaded JSON",
-                        type="primary",
-                        key="wizard_apply_upload_btn",
-                    ):
+        # Merge vs Overwrite behavior
+        merge_mode = st.radio(
+            "When applying uploaded JSON",
+            ["Merge", "Overwrite"],
+            horizontal=True,
+            key="wizard_merge_mode",
+        )
+        uploaded = st.file_uploader(
+            "Upload naf_report_*.json", type=["json"], key="wizard_upload_json"
+        )
+        if uploaded is not None:
+            fname = (uploaded.name or "").strip()
+            if not fname.lower().endswith(".json"):
+                st.error(
+                    "Invalid file. Please upload a .json file exported from this tool."
+                )
+            elif not fname.lower().startswith("naf_report_"):
+                st.info(
+                    "Tip: Expected a file named like 'naf_report_*.json' (use the Save Solution Artifacts download). Rename the file or download a fresh export."
+                )
+            else:
+                if st.button(
+                    "Apply uploaded JSON",
+                    type="primary",
+                    key="wizard_apply_upload_btn",
+                ):
                         try:
                             data = json.load(uploaded)
                             if not isinstance(data, dict):
@@ -880,8 +884,21 @@ def main():
                         except Exception as e:
                             st.error(f"Failed to load JSON: {e}")
 
+    #--------------- END of SIDEBAR -----------------
+
     # Build a local payload for this run (no persistence/state-sharing)
     payload = {}
+
+    # Main content area with tabs
+    tab1, tab2 = st.tabs(["Solution Wizard", "UseCase_Wizard"])
+
+    with tab1:
+        # This is where the existing main content will go
+        pass
+
+    with tab2:
+        st.header("UseCase Wizard")
+        st.info("Coming Soon")
 
     # Title with NAF icon
     title_cols = st.columns([0.08, 0.92])
@@ -904,7 +921,7 @@ def main():
         st.subheader("Solution Wizard")
         st.markdown(
             """
-            The Solution Wizard helps you think through your automation project using the Network Automation Forum's (NAF) Network Automation Framework (yes NAF NAF).
+            The Solution Wizard helps you think through your automation project using the Network Automation Forum's (NAF) [Network Automation Framework](https://reference.networkautomation.forum/Framework/Framework/) (yes NAF NAF).
 
             - **Purpose:** Guide structured thinking across the NAF components so you identify stakeholders, scope, data flows, and build/buy/support decisions.
             - **Second set of eyes:** Use it as a checklist to ensure you’ve considered all key components; the framework helps make sure nothing critical is missed.
@@ -932,6 +949,7 @@ def main():
         role_opts = [
             SENTINEL_SELECT,
             "I’m a network engineer.",
+            "I’m a security engineer.",
             "I’m a software developer.",
             "I manage technical projects or teams.",
             "Other (fill in)",
@@ -2279,6 +2297,30 @@ def main():
             ],
         }
 
+    # Collapsed preview of any Use Cases captured on the separate page
+    try:
+        use_cases = st.session_state.get("use_cases", [])
+    except Exception:
+        use_cases = []
+    uc_count = len(use_cases) if isinstance(use_cases, list) else 0
+    uc_title_suffix = f" ({uc_count})" if uc_count else " (0)"
+    with st.expander(f"Automation Use Cases{uc_title_suffix}", expanded=False):
+        if not uc_count:
+            st.info(
+                "No automation use cases have been defined yet. Use the 'Automation Use Cases' page to capture them."
+            )
+        else:
+            for i, uc in enumerate(use_cases, start=1):
+                name = (uc.get("name") or "").strip() or f"Use Case {i}"
+                desc = (uc.get("description") or "").strip()
+                expected = (uc.get("expected_outcome") or "").strip()
+                st.markdown(f"**Use Case {i}: {name}**")
+                if desc:
+                    st.markdown(f"- Description / Problem Statement: {desc}")
+                if expected:
+                    st.markdown(f"- Expected Outcome: {expected}")
+                st.markdown("---")
+
     # Local payload compiled above
     # Determine if there is meaningful content across sections (the user has made updates
     def _has_any_content(p: dict) -> bool:
@@ -2778,6 +2820,16 @@ def main():
                 "items": schedule,
             }
 
+        # Include any use cases captured on the dedicated Use Case page
+        try:
+            if "use_cases" in st.session_state and isinstance(
+                st.session_state.get("use_cases"), list
+            ):
+                final_payload["use_cases"] = st.session_state.get("use_cases", [])
+        except Exception:
+            # If session_state is unavailable or malformed, skip attaching use_cases
+            pass
+
         # Ensure naf_report_md (formerly summary_md) is included at the top level
         if "naf_report_md" not in final_payload:
             final_payload["naf_report_md"] = summary_md if summary_md else ""
@@ -2851,6 +2903,7 @@ def main():
                 "executor": final_payload.get("executor", {}),
                 "dependencies": final_payload.get("dependencies", []),
                 "timeline": final_payload.get("timeline", {}),
+                "use_cases": final_payload.get("use_cases", []),
                 # If we include a PNG in the ZIP, the relative path in the archive is just the filename
                 "gantt_image_path": (
                     "Gantt.png" if False else None
@@ -2966,7 +3019,7 @@ def main():
                 pass
 
         zip_bytes = zip_buf.getvalue()
-        # Sidebar export (single ZIP download) only when summary has meaningful content
+        # Export (single ZIP download) only when summary has meaningful content
         # and at least one selection array is non-empty (to avoid pure-default narratives)
         sel = {
             "pres": (payload.get("presentation", {}) or {}).get("selections", {}),
@@ -3010,7 +3063,7 @@ def main():
         # Treat any non-sentinel choice (including 'No') as a meaningful change for gating
         orch_nondefault = bool(orch_choice and orch_choice != "— Select one —")
         if has_any_selection or ini_nondefault or orch_nondefault or role_nonempty:
-            with st.sidebar.expander("Save Solution Artifacts", expanded=True):
+            with st.expander("Save Solution Artifacts", expanded=True):
                 st.caption("Download your current scenario (JSON + Markdown + Gantt)")
                 st.download_button(
                     label="📦 Download (JSON + Markdown + Gantt)",
@@ -3021,7 +3074,7 @@ def main():
                     key="wizard_zip_download_btn",
                 )
         else:
-            with st.sidebar.expander("Save Solution Artifacts", expanded=False):
+            with st.expander("Save Solution Artifacts", expanded=False):
                 st.info(
                     "Start filling in the sections above to see Solution Highlights here. Once you provide inputs, you will also be able to download the Wizard JSON."
                 )
@@ -3103,7 +3156,7 @@ def main():
                 except Exception:
                     pass
             zip_bytes = zip_buf.getvalue()
-            with st.sidebar.expander("Save Solution Artifacts", expanded=True):
+            with st.expander("Save Solution Artifacts", expanded=True):
                 st.caption("Download your current scenario (JSON + Markdown + Gantt)")
                 st.download_button(
                     label="📦 Download (JSON + Markdown + Gantt)",
@@ -3114,8 +3167,8 @@ def main():
                     key="wizard_zip_download_btn",
                 )
         else:
-            # Sidebar reminder when no content yet
-            with st.sidebar.expander("Save Solution Artifacts", expanded=False):
+            # Reminder when no content yet
+            with st.expander("Save Solution Artifacts", expanded=False):
                 st.info(
                     "Start filling in the sections above to see Solution Highlights here. Once you provide inputs, you will also be able to download the Wizard JSON."
                 )
@@ -3134,23 +3187,98 @@ def main():
             pass
 
 
-if __name__ == "__main__":
-    main()
-st.markdown("---")
-st.caption(
-    "Disclaimer: Results depend entirely on your inputs. Validate data and use professional judgment."
-)
+def main() -> None:
+    """Landing page for the NAF‑NAF Wizard.
 
-with st.expander("⚠️ Read full disclaimer", expanded=False):
+    This page orients users to the workflow and explains how the Use Case and
+    Solution Wizard pages fit together when running as a multipage app.
+    """
+
+    st.set_page_config(
+        page_title="NAF‑NAF Wizard App",
+        page_icon="images/naf_icon.png",
+        layout="wide",
+    )
+
+    st.title("NAF‑NAF Wizard App")
     st.markdown(
         """
-        The calculations, outputs, and recommendations presented by this application are for informational purposes only. 
-        Results are entirely dependent on the inputs provided by the user and any assumptions entered. 
-        It is the user's responsibility to validate all inputs, review the outputs for accuracy and suitability, and apply appropriate professional judgment before making decisions based on these results.
-        
-        By using this application, you acknowledge and agree that:
-        - You are solely responsible for the data you enter and for any conclusions or decisions you draw from the results.
-        - The authors and contributors make no warranties, express or implied, regarding accuracy, completeness, or fitness for a particular purpose.
-        - The authors and contributors shall not be liable for any losses or damages arising from use of or reliance on the results.
+        This application helps you apply the Network Automation Forum's
+        **Network Automation Framework (NAF)** to your own automation projects.
+
+        The workflow is designed in two main steps:
         """
     )
+
+    st.markdown("### 1. Start with the Use Case page")
+    st.markdown(
+        """
+        Use the **Use Case** page to think through and **document the automation use case**:
+
+        - What problem are you trying to solve?
+        - Who are the primary users and stakeholders?
+        - What is in scope and out of scope?
+        - What assumptions, risks, or dependencies should be called out?
+
+        Treat this as a structured notepad for the *story* of the automation.
+        The more clearly you define the use case, the easier it is to build a
+        meaningful solution design.
+        """
+    )
+
+    st.markdown("### 2. Then use the Solution Wizard page")
+    st.markdown(
+        """
+        After you have one or more use cases defined, move to the
+        **Solution Wizard** page:
+
+        - Walk through each NAF component: Presentation, Intent, Observability,
+          Orchestration, Collector, and Executor.
+        - Capture how your automation will interact with people and systems.
+        - Describe how state is represented, observed, and changed.
+        - Identify external dependencies and sketch a staffing/timeline plan.
+
+        The wizard can generate a **high‑level solution document** (JSON +
+        Markdown + timeline artifacts) that you can share with:
+
+        - Team members who will help design or build the automation.
+        - Stakeholders who need to understand what the automation will do.
+        - Management who need a concise overview of scope, impact, and effort.
+        """
+    )
+
+    st.markdown("### Navigation and state sharing")
+    st.markdown(
+        """
+        - Use the **sidebar page selector** to switch between the Use Case and
+          Solution Wizard pages (when running as a multipage app with a
+          `pages/` directory).
+        - The application keeps shared information in `st.session_state`, so
+          values entered on one page remain available on the others during the
+          same session.
+        - You can iterate: refine your use case, update the solution design,
+          and re‑generate artifacts as your understanding evolves.
+        """
+    )
+
+
+if __name__ == "__main__":
+    main()
+    st.markdown("---")
+    st.caption(
+        "Disclaimer: Results depend entirely on your inputs. Validate data and use professional judgment."
+    )
+
+    with st.expander("⚠️ Read full disclaimer", expanded=False):
+        st.markdown(
+            """
+            The calculations, outputs, and recommendations presented by this application are for informational purposes only. 
+            Results are entirely dependent on the inputs provided by the user and any assumptions entered. 
+            It is the user's responsibility to validate all inputs, review the outputs for accuracy and suitability, and apply appropriate professional judgment before making decisions based on these results.
+            
+            By using this application, you acknowledge and agree that:
+            - You are solely responsible for the data you enter and for any conclusions or decisions you draw from the results.
+            - The authors and contributors make no warranties, express or implied, regarding accuracy, completeness, or fitness for a particular purpose.
+            - The authors and contributors shall not be liable for any losses or damages arising from use of or reliance on the results.
+            """
+        )
