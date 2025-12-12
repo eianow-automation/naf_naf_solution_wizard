@@ -15,6 +15,7 @@ __license__ = "Python"
 from typing import Any, Dict, List
 
 import streamlit as st
+from NAF_NAF_Solution_Wizard import render_global_sidebar
 
 
 def _ensure_state() -> None:
@@ -246,6 +247,8 @@ def main() -> None:
 
     """
 
+    # Shared sidebar branding
+    render_global_sidebar()
 
     st.title("Automation Use Cases")
     st.caption(

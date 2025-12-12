@@ -72,6 +72,51 @@ def thick_hr(color: str = "red", thickness: int = 3, margin: str = "1rem 0"):
     )
 
 
+def render_global_sidebar() -> None:
+    """Render global sidebar branding used across all pages.
+
+    Includes the EIA logo, external links, and bottom NAF branding bar.
+    """
+
+    hr_color_dict = hr_colors()
+
+    with st.sidebar:
+
+
+
+        # Top branding: logo and EIA links
+        col_logo, col_links = st.columns([1, 2])
+        with col_logo:
+            st.image("images/EIA Logo FINAL small_Round.png", width="stretch")
+        with col_links:
+            st.markdown("[🏠 EIA Home](https://eianow.com)")
+            st.markdown(
+                "[[in] EIA on LinkedIn](https://www.linkedin.com/company/eianow/)"
+            )
+
+        thick_hr(
+            color=hr_color_dict.get("eia_blue", "#92c0e4"),
+            thickness=6,
+            margin="0.5rem 0",
+        )
+
+        # Bottom NAF branding bar with NAF icon
+
+        _naf_logo_col, _naf_link_col = st.columns([1, 2])
+        with _naf_logo_col:
+            st.image("images/naf_icon.png", width="stretch")
+        with _naf_link_col:
+            st.markdown("[🏠 NAF Home](https://networkautomation.forum/)")
+            # linkedin.com/company/network-automation-forum/
+            st.markdown(
+                "[[in] NAF on LinkedIn](https://www.linkedin.com/company/network-automation-forum/)"
+            )
+        thick_hr(
+            color=hr_color_dict.get("naf_yellow", "#fffe03"),
+            thickness=6,
+            margin="0.75rem 0 0.25rem 0",
+        )
+
 def join_human(items: List[str]):
     """
     Join a list of strings into a human-friendly phrase.
@@ -174,27 +219,11 @@ def solution_wizard_main():
         layout="wide",
     )
 
-    # Colors
+    # Global sidebar branding (shared across pages)
+    render_global_sidebar()
+
+    # Colors for main content separators
     hr_color_dict = hr_colors()
-
-    #--------------- START of SIDEBAR -----------------
-    # Sidebar content (branding and external links only)
-    with st.sidebar:
-        col_logo, col_links = st.columns([1, 2])
-        with col_logo:
-            st.image("images/EIA Logo FINAL small_Round.png", width="stretch")
-        with col_links:
-            # External links
-            st.markdown("[🏠 EIA Home](https://eianow.com)")
-            st.markdown(
-                "[[in] EIA on LinkedIn](https://www.linkedin.com/company/eianow/)"
-            )
-
-        thick_hr(
-            color=hr_color_dict.get("eia_blue", "#92c0e4"),
-            thickness=6,
-            margin="0.5rem 0",
-        )
 
     # JSON upload/reset controls now live in the main page body
     with st.expander("Load Saved Solution Wizard (JSON)", expanded=False):
@@ -3175,17 +3204,6 @@ def solution_wizard_main():
 
     # Diagram removed per request; SDD export available above.
 
-    # Sidebar bottom branding (below Export)
-    with st.sidebar:
-        thick_hr(
-            color=hr_color_dict.get("naf_yellow", "#fffe03"),
-            thickness=6,
-            margin="0.75rem 0 0.25rem 0",
-        )
-        _naf_logo_col, _naf_link_col = st.columns([1, 2])
-        with _naf_logo_col:
-            pass
-
 
 def main() -> None:
     """Landing page for the NAF‑NAF Wizard.
@@ -3199,6 +3217,9 @@ def main() -> None:
         page_icon="images/naf_icon.png",
         layout="wide",
     )
+
+    # Shared sidebar branding
+    render_global_sidebar()
 
     st.title("NAF‑NAF Wizard App")
     st.markdown(
