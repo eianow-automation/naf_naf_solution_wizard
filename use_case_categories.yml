@@ -1,0 +1,20 @@
+Configuration Management: Automating device configuration updates, backups, and version control to ensure consistency and reduce errors.
+Device Onboarding: Streamlining the process of adding new devices to the network, including initial configuration, security setup, and compliance validation.
+Software Upgrades: Automating the deployment of software and firmware updates across network devices for improved security and feature parity.
+State Verification and Compliance: Continuously checking network device configurations and states against templates or policies to ensure compliance and detect discrepancies.
+Self-Service Tools: Providing interfaces or portals for authorized users to request and provision network resources or changes without direct intervention from network teams.
+Network Inventory and Discovery: Automating the identification and tracking of network devices, including hardware details, software versions, and support status.
+Monitoring and Troubleshooting: Automating the collection of network performance data, generating alerts, and triggering diagnostic actions for issues.
+Policy and Security Management: Automating the enforcement of network security policies, such as firewall rule changes, access control lists, and VLAN management.
+Orchestration and Workflow Automation: Coordinating multi-step processes across different network domains or systems, such as provisioning services or managing SD-WAN branches.
+Cloud and Hybrid Network Integration: Automating the deployment and management of network resources in cloud environments, including VPCs, load balancers, and hybrid connectivity.
+Intent-Based Automation: Using high-level business or operational intents to drive automated network changes, with continuous validation and remediation.
+Application Connectivity: Automating checks for connectivity between network infrastructure devices.
+Peer Validation: Automating checks for ensuring proper peer relationships.
+End User Testing: Automating tests for ensuring end user functionality.
+Text Summary: Automating the generation of text summaries for network device configurations and states.
+Observability: Automating the collection of network performance data, generating alerts, and triggering diagnostic actions for issues.
+Incident Response: Automating the response to network incidents, including alerting, triaging, and remediating issues.
+Other: Other categories not listed above.
+Security Policy Management: Automating the enforcement of network security policies, such as firewall rule changes, access control lists, and VLAN management.
+
