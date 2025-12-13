@@ -3243,7 +3243,7 @@ def main() -> None:
     """
 
     st.set_page_config(
-        page_title="NAF‑NAF Wizard App",
+        page_title="NAF NAF Wizard App",
         page_icon="images/EIA_Favicon.png",
         layout="wide",
     )
@@ -3251,7 +3251,7 @@ def main() -> None:
     # Shared sidebar branding
     render_global_sidebar()
 
-    st.title("NAF‑NAF Wizard App")
+    st.title("Network Automation Forum (NAF) Network Automation Framework (NAF) Wizard App")
     st.markdown(
         """
         This application helps you apply the Network Automation Forum's
@@ -3261,18 +3261,19 @@ def main() -> None:
         """
     )
 
-    st.markdown("### 1. Start with the Use Case page")
+    st.markdown("### 1. Start with the Use Case page to help you think through the automation use cases you are targeting")
     st.markdown(
         """
-        Use the **Use Case** page to think through and **document the automation use case**:
+        Use the **Use Case** page to think through and **document the automation use cases**:
 
         - What problem are you trying to solve?
         - Who are the primary users and stakeholders?
         - What is in scope and out of scope?
         - What assumptions, risks, or dependencies should be called out?
+        - What are the steps required to execute the use case?
 
-        Treat this as a structured notepad for the *story* of the automation.
-        The more clearly you define the use case, the easier it is to build a
+        Treat this as a structured notepad for one or more *stories* of the automation.
+        The more clearly you define the use cases, the easier it is to build a
         meaningful solution design.
         """
     )
