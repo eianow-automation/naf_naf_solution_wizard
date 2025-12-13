@@ -338,7 +338,7 @@ def solution_wizard_main():
                     "Here is a short description of my my new network automation project"
                 )
                 st.session_state["_wizard_expected_use"] = (
-                    "This automation will be used whenever this task needs to be executed."
+                    "This automation will be used whenever this task needs to be executed. See Use Cases for more details."
                 )
                 st.session_state["_wizard_out_of_scope"] = ""
                 st.session_state["no_move_forward"] = ""
@@ -1068,7 +1068,7 @@ def solution_wizard_main():
             )
         if "_wizard_expected_use" not in st.session_state:
             st.session_state["_wizard_expected_use"] = (
-                "This automation will be used whenever this task needs to be executed."
+                "This automation will be used whenever this task needs to be executed. See Use Cases for more details."
             )
         if "_wizard_out_of_scope" not in st.session_state:
             st.session_state["_wizard_out_of_scope"] = ""
@@ -3303,15 +3303,17 @@ def main() -> None:
     st.markdown(
         """
         - Use the **sidebar page selector** to switch between the Use Case and
-          Solution Wizard pages (when running as a multipage app with a
-          `pages/` directory).
+          Solution Wizard pages.
         - The application keeps shared information so values entered on one page
           remain available on the others during the same session.
         - You can iterate: refine your use case, update the solution design,
           and re‑generate artifacts as your understanding evolves.
+        - The application allows you to save your work (uses cases and solution design) 
+          as a JSON file that you can load later.
         - If you saved a previous session, you can load it using the **Load
           Session** button at the top of the Solution Wizard page (this includes saved 
           use cases and solution designs).
+
         """
     )
 
