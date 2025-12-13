@@ -7,15 +7,16 @@
 
 An interactive Streamlit app to help you describe in a systematic way a proposed network automation solution using the NAF Network Automation Framework. 
 
-It guides you through standard solution blocks for a network automation solution: 
-- Presentation, 
-- Intent, 
-- Observability, 
-- Orchestration, 
-- Collector, and 
-- Executor
-
-It will also walk you through external system Dependencies, Staffing, and a planning Timeline.
+It guides you through:
+- **Automation Use Cases** — Define one or more use cases with problem statements, expected outcomes, categories, triggers, and more
+- **Standard solution blocks** for a network automation solution:
+  - Presentation
+  - Intent
+  - Observability
+  - Orchestration
+  - Collector
+  - Executor
+- **External system Dependencies**, **Staffing**, and a planning **Timeline**
 
 With this input, the App will generate a consolidated report and a bundled ZIP containing:
 
@@ -25,9 +26,9 @@ With this input, the App will generate a consolidated report and a bundled ZIP c
 
 ## Preview the Solution Wizard on Streamlit App 
 
-Quickly try the Streamlit hosted app [here](https://naf-network-automation-framework-wizard.streamlit.app) to see if it is worth installing!
+Quickly try the Streamlit hosted app [here](https://naf-naf-wizard.streamlit.app/) to see if it is worth installing!
 
-<a href="https://naf-network-automation-framework-wizard.streamlit.app/"><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" alt="Open in Streamlit" width="80" /></a>
+<a href="https://https://naf-naf-wizard.streamlit.app/"><img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" alt="Open in Streamlit" width="80" /></a>
 
 ---
 ## Features
