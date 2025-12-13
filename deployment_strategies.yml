@@ -1,0 +1,10 @@
+Canary: Deploys the new version to a small subset of users first, then gradually increases traffic if no problems are detected.
+BlueGreen: Maintains two identical environments; traffic is switched from the old (blue) to the new (green) version all at once.
+Recreate: Shuts down all old instances before starting new ones, resulting in downtime but ensuring a clean environment.
+RollingUpdate: Gradually replaces old instances with new ones, minimizing downtime and allowing rollback if issues occur.
+A/BTesting: Runs two versions simultaneously, directing traffic based on rules to compare performance and user experience.
+Shadow: Routes a copy of production traffic to the new version for testing without affecting users.
+Ramped: Slowly increases the number of new instances over time, often used for gradual rollouts.
+InfrastructureAsCode: Uses code to provision and manage network infrastructure, ensuring consistency and reproducibility.
+ImmutableInfrastructure: Deploys new infrastructure for each change, never modifying existing resources in place.
+FeatureToggle: Enables or disables features at runtime without deploying new code, allowing controlled feature releases.
