@@ -45,48 +45,13 @@ _No specific highlights provided._
 - Skills: {{ my_role["skills"] or '' }}
 - Developer: {{ my_role["developer"] or '' }}
 
-## Automation Use Cases
+## Automation Use Cases Summary
 {% if use_cases and use_cases|length > 0 %}
 {% for uc in use_cases %}
-### Use Case {{ loop.index }}: {{ uc["name"] or '(Untitled use case)' }}
-
-{% if uc["description"] %}
-- **Description / Problem Statement:** {{ uc["description"] }}
-{% endif %}
-{% if uc["expected_outcome"] %}
-- **Expected Outcome:** {{ uc["expected_outcome"] }}
-{% endif %}
-{% if uc["category"] %}
-- **Category:** {{ uc["category"] }}
-{% endif %}
-{% if uc["assumptions"] %}
-- **Assumptions:** {{ uc["assumptions"] }}
-{% endif %}
-{% if uc["trigger"] %}
-- **Trigger:** {{ uc["trigger"] }}
-{% endif %}
-{% if uc["building_blocks"] %}
-- **Building Blocks:** {{ uc["building_blocks"] }}
-{% endif %}
-{% if uc["setup_task"] %}
-- **Setup Task:** {{ uc["setup_task"] }}
-{% endif %}
-{% if uc["tasks"] %}
-- **Task(s):** {{ uc["tasks"] }}
-{% endif %}
-{% if uc["deployment_strategy"] %}
-- **Deployment Strategy:** {{ uc["deployment_strategy"] }}
-{% endif %}
-{% if uc["error_conditions"] %}
-- **Error Conditions:** {{ uc["error_conditions"] }}
-{% endif %}
-
-{% if not loop.last %}
----
-{% endif %}
+- Use Case {{ loop.index }}: {{ uc["name"] or '(Untitled)' }}
 {% endfor %}
 {% else %}
-_No specific automation use cases captured in this report._
+_No automation use cases defined._
 {% endif %}
 
 ## Presentation
@@ -208,6 +173,52 @@ _Gantt chart image not available._
 {{ staffing_plan }}
 {% else %}
 _No detailed staffing plan provided._
+{% endif %}
+
+---
+
+# Automation Use Cases Detail
+{% if use_cases and use_cases|length > 0 %}
+{% for uc in use_cases %}
+## Use Case {{ loop.index }}: {{ uc["name"] or '(Untitled use case)' }}
+
+{% if uc["description"] %}
+- **Description / Problem Statement:** {{ uc["description"] }}
+{% endif %}
+{% if uc["expected_outcome"] %}
+- **Expected Outcome:** {{ uc["expected_outcome"] }}
+{% endif %}
+{% if uc["category"] %}
+- **Category:** {{ uc["category"] }}
+{% endif %}
+{% if uc["assumptions"] %}
+- **Assumptions:** {{ uc["assumptions"] }}
+{% endif %}
+{% if uc["trigger"] %}
+- **Trigger:** {{ uc["trigger"] }}
+{% endif %}
+{% if uc["building_blocks"] %}
+- **Building Blocks:** {{ uc["building_blocks"] }}
+{% endif %}
+{% if uc["setup_task"] %}
+- **Setup Task:** {{ uc["setup_task"] }}
+{% endif %}
+{% if uc["tasks"] %}
+- **Task(s):** {{ uc["tasks"] }}
+{% endif %}
+{% if uc["deployment_strategy"] %}
+- **Deployment Strategy:** {{ uc["deployment_strategy"] }}
+{% endif %}
+{% if uc["error_conditions"] %}
+- **Error Conditions:** {{ uc["error_conditions"] }}
+{% endif %}
+
+{% if not loop.last %}
+---
+{% endif %}
+{% endfor %}
+{% else %}
+_No automation use cases were defined._
 {% endif %}
 
 ---
