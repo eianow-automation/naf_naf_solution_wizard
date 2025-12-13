@@ -352,13 +352,6 @@ def solution_wizard_main():
 
         # Sample JSON download removed per request
 
-        # Merge vs Overwrite behavior
-        merge_mode = st.radio(
-            "When applying uploaded JSON",
-            ["Merge", "Overwrite"],
-            horizontal=True,
-            key="wizard_merge_mode",
-        )
         uploaded = st.file_uploader(
             "Upload naf_report_*.json", type=["json"], key="wizard_upload_json"
         )
@@ -385,99 +378,99 @@ def solution_wizard_main():
                                     "Uploaded JSON is not a valid Solution Wizard export (expected an object)."
                                 )
                             else:
-                                # Overwrite: clear existing wizard-related state before applying
-                                if merge_mode == "Overwrite":
-                                    prefixes = (
-                                        "pres_",
-                                        "intent_",
-                                        "obs_",
-                                        "orch_",
-                                        "collector_",
-                                        "collection_tool_",
-                                        "collection_tools_",
-                                        "exec_",
-                                        "my_role_",
-                                        "dep_",
-                                        "_tl_",
-                                        "_timeline_",
-                                        "obs_tool_",
-                                        "obs_state_",
-                                        "collector_method_",
-                                        "collector_auth_",
-                                        "collector_handle_",
-                                        "collector_norm_",
-                                    )
-                                    for k in list(st.session_state.keys()):
-                                        if any([k.startswith(p) for p in prefixes]):
-                                            st.session_state.pop(k, None)
-                                    # Force-uncheck known checkbox/toggle keys
-                                    for k in list(st.session_state.keys()):
-                                        if k.startswith(
-                                            (
-                                                "pres_user_",
-                                                "pres_interact_",
-                                                "pres_tool_",
-                                                "pres_auth_",
-                                                "intent_dev_",
-                                                "intent_prov_",
-                                                "obs_state_",
-                                                "obs_tool_",
-                                                "collector_method_",
-                                                "collector_auth_",
-                                                "collector_handle_",
-                                                "collector_norm_",
-                                                "collection_tool_",
-                                                "collection_tools_",
-                                            )
-                                        ):
-                                            st.session_state[k] = False
-                                    for k in [
-                                        "pres_user_custom_enable",
-                                        "pres_interact_custom_enable",
-                                        "pres_tool_custom_enable",
-                                        "pres_auth_other_enable",
-                                        "intent_dev_custom_enable",
-                                        "intent_prov_custom_enable",
-                                        "obs_tool_other_enable",
-                                        "collector_methods_other_enable",
-                                        "collector_auth_other_enable",
-                                        "collector_handling_other_enable",
-                                        "collector_norm_other_enable",
-                                        "collection_tools_other_enable",
-                                    ]:
-                                        st.session_state[k] = False
-                                    # Set Orchestration radio to sentinel
-                                    st.session_state["orch_choice"] = "— Select one —"
-                                    st.session_state["orch_details_text"] = ""
-                                    # Also set My Role radios to sentinel explicitly
-                                    st.session_state["my_role_who"] = "— Select one —"
-                                    st.session_state["my_role_skills"] = (
-                                        "— Select one —"
-                                    )
-                                    st.session_state["my_role_dev"] = "— Select one —"
-                                    st.session_state.pop("my_role_who_other", None)
-                                    st.session_state.pop("my_role_skills_other", None)
-                                    st.session_state.pop("my_role_dev_other", None)
-                                    for k in [
-                                        "automation_title",
-                                        "automation_description",
-                                        "expected_use",
-                                        "out_of_scope",
-                                        "no_move_forward",
-                                        "no_move_forward_reasons",
-                                        "timeline_milestones",
-                                        "timeline_staff_count",
-                                        "timeline_staffing_plan",
-                                        "timeline_holiday_region",
-                                        "timeline_start_date",
-                                        "collector_devices",
-                                        "collector_metrics",
-                                        "collector_cadence",
-                                        "orch_choice",
-                                        "orch_details_text",
-                                    ]:
+                                # Clear ALL existing wizard-related state before applying (Overwrite mode)
+                                prefixes = (
+                                    "pres_",
+                                    "intent_",
+                                    "obs_",
+                                    "orch_",
+                                    "collector_",
+                                    "collection_tool_",
+                                    "collection_tools_",
+                                    "exec_",
+                                    "my_role_",
+                                    "dep_",
+                                    "_tl_",
+                                    "_timeline_",
+                                    "obs_tool_",
+                                    "obs_state_",
+                                    "collector_method_",
+                                    "collector_auth_",
+                                    "collector_handle_",
+                                    "collector_norm_",
+                                    "_wizard_",
+                                    "_widget_",
+                                )
+                                for k in list(st.session_state.keys()):
+                                    if any([k.startswith(p) for p in prefixes]):
                                         st.session_state.pop(k, None)
-                                # Initiative (use _wizard_ keys to persist across pages)
+                                # Force-uncheck known checkbox/toggle keys
+                                for k in list(st.session_state.keys()):
+                                    if k.startswith(
+                                        (
+                                            "pres_user_",
+                                            "pres_interact_",
+                                            "pres_tool_",
+                                            "pres_auth_",
+                                            "intent_dev_",
+                                            "intent_prov_",
+                                            "obs_state_",
+                                            "obs_tool_",
+                                            "collector_method_",
+                                            "collector_auth_",
+                                            "collector_handle_",
+                                            "collector_norm_",
+                                            "collection_tool_",
+                                            "collection_tools_",
+                                        )
+                                    ):
+                                        st.session_state[k] = False
+                                for k in [
+                                    "pres_user_custom_enable",
+                                    "pres_interact_custom_enable",
+                                    "pres_tool_custom_enable",
+                                    "pres_auth_other_enable",
+                                    "intent_dev_custom_enable",
+                                    "intent_prov_custom_enable",
+                                    "obs_tool_other_enable",
+                                    "collector_methods_other_enable",
+                                    "collector_auth_other_enable",
+                                    "collector_handling_other_enable",
+                                    "collector_norm_other_enable",
+                                    "collection_tools_other_enable",
+                                ]:
+                                    st.session_state[k] = False
+                                # Set Orchestration radio to sentinel
+                                st.session_state["orch_choice"] = "— Select one —"
+                                st.session_state["orch_details_text"] = ""
+                                # Also set My Role radios to sentinel explicitly
+                                st.session_state["my_role_who"] = "— Select one —"
+                                st.session_state["my_role_skills"] = "— Select one —"
+                                st.session_state["my_role_dev"] = "— Select one —"
+                                st.session_state.pop("my_role_who_other", None)
+                                st.session_state.pop("my_role_skills_other", None)
+                                st.session_state.pop("my_role_dev_other", None)
+                                for k in [
+                                    "automation_title",
+                                    "automation_description",
+                                    "expected_use",
+                                    "out_of_scope",
+                                    "no_move_forward",
+                                    "no_move_forward_reasons",
+                                    "timeline_milestones",
+                                    "timeline_staff_count",
+                                    "timeline_staffing_plan",
+                                    "timeline_holiday_region",
+                                    "timeline_start_date",
+                                    "collector_devices",
+                                    "collector_metrics",
+                                    "collector_cadence",
+                                    "orch_choice",
+                                    "orch_details_text",
+                                ]:
+                                    st.session_state.pop(k, None)
+                                
+                                # Load Initiative data
                                 ini = data.get("initiative", {}) or {}
                                 if ini.get("title") is not None:
                                     st.session_state["_wizard_automation_title"] = str(
@@ -500,17 +493,12 @@ def solution_wizard_main():
                                         "no_move_forward"
                                     )
                                 if ini.get("no_move_forward_reasons") is not None:
-                                    # Preserve uploaded reasons separately; let the widget own the
-                                    # actual "no_move_forward_reasons" key to avoid Streamlit warnings
+                                    # Set the widget key directly
                                     vals = ini.get("no_move_forward_reasons") or []
                                     if isinstance(vals, list):
-                                        st.session_state[
-                                            "_uploaded_no_move_forward_reasons"
-                                        ] = vals
+                                        st.session_state["no_move_forward_reasons"] = vals
                                     else:
-                                        st.session_state[
-                                            "_uploaded_no_move_forward_reasons"
-                                        ] = []
+                                        st.session_state["no_move_forward_reasons"] = []
                                 # ignore legacy initiative.solution_details_md in uploads
 
                                 # Use Cases (optional top-level list of dicts)
@@ -820,6 +808,26 @@ def solution_wizard_main():
                                         col_sel.get("cadence")
                                     )
 
+                                # Executor
+                                exec_sel = (data.get("executor", {}) or {}).get(
+                                    "selections", {}
+                                )
+                                exec_opts = [
+                                    "Automating CLI interaction with Python automation frameworks (Netmiko, Napalm, Nornir, PyATS)",
+                                    "Automating execution with a tool like Ansible",
+                                    "Custom Python scripts",
+                                    "Via manufacturer management application (Cisco DNA Center, Arista CVP)",
+                                ]
+                                for m in exec_sel.get("methods", []) or []:
+                                    for i, known in enumerate(exec_opts):
+                                        if m == known:
+                                            st.session_state[f"exec_{i}"] = True
+                                            break
+                                    else:
+                                        # Custom executor method
+                                        st.session_state["exec_custom_enable"] = True
+                                        st.session_state["exec_custom_text"] = m
+
                                 # Dependencies
                                 dep_list = data.get("dependencies", []) or []
                                 label_to_key = {
@@ -1058,8 +1066,8 @@ def solution_wizard_main():
         st.caption(
             "One-way sync to Business Case when empty or default: Title, Short description, Expected use, Out of scope, and Detailed description."
         )
-        # Initialize defaults in _wizard_ data keys (these persist across page navigation)
-        # Widget keys (_widget_*) are separate so Streamlit can manage them without losing data
+        # Initialize defaults - use _wizard_ keys directly as widget keys
+        # When JSON is uploaded, these keys are cleared and reset, so widgets pick up new values
         if "_wizard_automation_title" not in st.session_state:
             st.session_state["_wizard_automation_title"] = "My new network automation project"
         if "_wizard_automation_description" not in st.session_state:
@@ -1075,38 +1083,30 @@ def solution_wizard_main():
 
         col_ib1, col_ib2 = st.columns([2, 3])
         with col_ib1:
-            title = st.text_input(
+            st.text_input(
                 "Automation initiative title",
-                value=st.session_state.get("_wizard_automation_title", ""),
-                key="_widget_automation_title",
+                key="_wizard_automation_title",
             )
-            st.session_state["_wizard_automation_title"] = title
         with col_ib2:
-            description = st.text_area(
+            st.text_area(
                 "Short description / scope",
-                value=st.session_state.get("_wizard_automation_description", ""),
                 height=80,
-                key="_widget_automation_description",
+                key="_wizard_automation_description",
             )
-            st.session_state["_wizard_automation_description"] = description
 
-        expected_use = st.text_area(
+        st.text_area(
             "Expected use (Markdown supported)",
-            value=st.session_state.get("_wizard_expected_use", ""),
             height=80,
-            key="_widget_expected_use",
+            key="_wizard_expected_use",
             help="Describe the circumstances under which this automation will be used.",
         )
-        st.session_state["_wizard_expected_use"] = expected_use
 
-        out_of_scope = st.text_area(
+        st.text_area(
             "Out of scope (optional)",
-            value=st.session_state.get("_wizard_out_of_scope", ""),
             height=80,
-            key="_widget_out_of_scope",
+            key="_wizard_out_of_scope",
             help="List areas intentionally excluded from this initiative.",
         )
-        st.session_state["_wizard_out_of_scope"] = out_of_scope
 
         # Standard reasons multiselect (required)
         standard_reasons = [
@@ -1118,33 +1118,16 @@ def solution_wizard_main():
             "This task will continue to take far longer than it should resulting in poor customer satisfaction",
         ]
 
-        # Use uploaded defaults only on first creation; afterwards let the widget manage state
-        existing_reasons = st.session_state.get("no_move_forward_reasons", None)
-        uploaded_defaults = st.session_state.pop(
-            "_uploaded_no_move_forward_reasons", None
-        )
+        # Initialize default if not set (widget key is set directly during JSON upload)
+        if "no_move_forward_reasons" not in st.session_state:
+            st.session_state["no_move_forward_reasons"] = []
 
-        if existing_reasons is None:
-            base = (
-                uploaded_defaults
-                if isinstance(uploaded_defaults, list)
-                else []
-            )
-            initial_default = [r for r in base if r in standard_reasons]
-            no_move_forward_reasons = st.multiselect(
-                "Standard reasons",
-                options=standard_reasons,
-                default=initial_default,
-                key="no_move_forward_reasons",
-                help="Select at least one standard reason that applies.",
-            )
-        else:
-            no_move_forward_reasons = st.multiselect(
-                "Standard reasons",
-                options=standard_reasons,
-                key="no_move_forward_reasons",
-                help="Select at least one standard reason that applies.",
-            )
+        no_move_forward_reasons = st.multiselect(
+            "Standard reasons",
+            options=standard_reasons,
+            key="no_move_forward_reasons",
+            help="Select at least one standard reason that applies.",
+        )
 
         # Show warning if no standard reasons selected
         if not no_move_forward_reasons:
@@ -1159,10 +1142,10 @@ def solution_wizard_main():
         )
 
         payload["initiative"] = {
-            "title": title,
-            "description": description,
-            "expected_use": expected_use,
-            "out_of_scope": out_of_scope,
+            "title": st.session_state.get("_wizard_automation_title", ""),
+            "description": st.session_state.get("_wizard_automation_description", ""),
+            "expected_use": st.session_state.get("_wizard_expected_use", ""),
+            "out_of_scope": st.session_state.get("_wizard_out_of_scope", ""),
             "no_move_forward": no_move_forward,
             "no_move_forward_reasons": no_move_forward_reasons,
         }
@@ -1976,6 +1959,9 @@ def solution_wizard_main():
             },
         }
 
+    # Include use cases from session state
+    payload["use_cases"] = st.session_state.get("use_cases", [])
+
     # Transition to external interfaces and planning
     thick_hr(color=hr_color_dict["naf_yellow"], thickness=5)
     st.markdown(
@@ -2618,6 +2604,18 @@ def solution_wizard_main():
             ini_lines.append(f"- Out of scope: {_out}")
         # If details_md exists, we keep it for the export doc, but don't render here to avoid duplication
         summary_parts.append(_section_md("Initiative", ini_lines))
+        
+        # Use Cases Summary (titles only)
+        use_cases = payload.get("use_cases", []) or []
+        uc_lines = []
+        if use_cases:
+            for i, uc in enumerate(use_cases):
+                uc_name = (uc.get("name") or "").strip() or "(Untitled)"
+                uc_lines.append(f"- Use Case {i + 1}: {uc_name}")
+        else:
+            uc_lines.append("- No use cases defined")
+        summary_parts.append(_section_md("Automation Use Cases", uc_lines))
+        
         # Presentation
         pres = payload.get("presentation", {})
         pres_lines = []
@@ -2731,7 +2729,7 @@ def solution_wizard_main():
         summary_md = ("".join(summary_parts)).strip()
         if summary_md:
             with st.expander(
-                "Detailed solution description (Markdown supported)", expanded=False
+                "Detailed solution description (Preview)", expanded=False
             ):
                 """
                 Live preview of the report that will be written into the ZIP (naf_report_*.md).

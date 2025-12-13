@@ -53,6 +53,7 @@ def _new_use_case() -> Dict[str, Any]:
         "building_blocks": "",
         "setup_task": "",
         "tasks": "",
+        "standard_deployment_strategy": "",
         "deployment_strategy": "",
         "error_conditions": "",
     }
@@ -224,13 +225,42 @@ def _edit_use_case(idx: int) -> None:
         ),
     )
 
-    # Deployment Strategy
+    # Standard Deployment Strategy (load from YAML file)
+    deploy_yaml_path = Path(__file__).parent.parent / "deployment_strategies.yml"
+    try:
+        with open(deploy_yaml_path, "r") as f:
+            deploy_data = yaml.safe_load(f)
+        deploy_options = list(deploy_data.keys()) if deploy_data else []
+    except Exception:
+        deploy_options = []
+    # Add placeholder as first option
+    deploy_placeholder = "— Select a deployment strategy —"
+    deploy_options_with_placeholder = [deploy_placeholder] + deploy_options
+    current_deploy = uc.get("standard_deployment_strategy", "") or deploy_placeholder
+    if current_deploy not in deploy_options_with_placeholder:
+        current_deploy = deploy_placeholder
+    deploy_sel = st.selectbox(
+        "Standard Deployment Strategy",
+        options=deploy_options_with_placeholder,
+        index=deploy_options_with_placeholder.index(current_deploy)
+        if current_deploy in deploy_options_with_placeholder
+        else 0,
+        key=f"uc_standard_deployment_strategy_{idx}",
+        help="Select a standard deployment strategy from the list.",
+    )
+    if deploy_sel == deploy_placeholder:
+        st.info("💡 Please select a deployment strategy from the list above.")
+        uc["standard_deployment_strategy"] = ""
+    else:
+        uc["standard_deployment_strategy"] = deploy_sel
+
+    # Deployment Strategy Description (optional)
     uc["deployment_strategy"] = st.text_area(
-        "Deployment Strategy",
+        "Deployment Strategy Description (optional)",
         value=uc.get("deployment_strategy", ""),
         key=f"uc_deployment_strategy_{idx}",
         height=80,
-        help="How is the automation deployed to the device? (e.g., canary, rolling)",
+        help="Additional details about how the automation is deployed.",
     )
 
     # Error Conditions
