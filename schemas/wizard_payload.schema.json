@@ -85,8 +85,20 @@
         "deployment_strategy": {
           "type": "string",
           "description": "Deployment strategy for the automation",
-          "minLength": 0,
-          "maxLength": 100
+          "enum": [
+            "Canary",
+            "BlueGreen", 
+            "Recreate",
+            "RollingUpdate",
+            "A/BTesting",
+            "Shadow",
+            "Ramped",
+            "InfrastructureAsCode",
+            "ImmutableInfrastructure",
+            "FeatureToggle",
+            "Pilot Program",
+            "Other"
+          ]
         },
         "deployment_strategy_other": {
           "type": "string",
@@ -132,25 +144,26 @@
           "description": "User's role in the initiative",
           "enum": [
             "— Select one —",
-            "Network Engineer",
-            "Network Architect",
-            "Automation Engineer",
-            "DevOps Engineer",
-            "Security Engineer",
-            "Cloud Engineer",
-            "Site Reliability Engineer",
-            "Other"
+            "I'm a network engineer.",
+            "I'm a software developer.",
+            "I manage technical projects or teams.",
+            "Other (fill in)"
           ]
+        },
+        "who_other": {
+          "type": "string",
+          "description": "Custom role when 'Other (fill in)' is selected",
+          "minLength": 0,
+          "maxLength": 100
         },
         "skills": {
           "type": "string",
           "description": "User's skill level",
           "enum": [
             "— Select one —",
-            "Beginner",
-            "Intermediate",
-            "Advanced",
-            "Expert"
+            "I have some scripting skills and basic software development experience.",
+            "I am an advanced software developer.",
+            "I provide techncial management on network and automation projects."
           ]
         },
         "developer": {
@@ -297,20 +310,13 @@
               "enum": [
                 "— Select one —",
                 "No",
-                "Ansible",
-                "Python",
-                "Nornir",
-                "Netmiko",
-                "NAPALM",
-                "PyATS",
-                "SaltStack",
-                "Cisco NSO",
-                "Other"
+                "Yes – internal via custom scripts and logic",
+                "Yes – provide details"
               ]
             },
             "details": {
               "type": "string",
-              "description": "Orchestration details",
+              "description": "Orchestration details when 'Yes – provide details' is selected",
               "minLength": 0,
               "maxLength": 1000
             }
