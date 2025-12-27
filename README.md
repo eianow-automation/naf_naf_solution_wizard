@@ -105,6 +105,16 @@ Quickly try the Streamlit hosted app [here](https://naf-naf-wizard.streamlit.app
 
 - If Gantt.png is missing, install `kaleido` and retry.
 
+## JSON Schema
+
+The wizard generates JSON payloads that conform to a defined schema:
+- **Schema location**: `schemas/wizard_payload.schema.json`
+- **Documentation**: See `docs/schema.md` for detailed field descriptions
+- **Validation**: The schema includes validation rules for all fields
+- **IDE Support**: Use the schema for autocomplete and validation in modern IDEs
+
+The schema defines the structure for all 11 sections of the wizard payload, including initiative details, stakeholder information, NAF components, dependencies, and timeline data.
+
 ## License
 
 Apache License

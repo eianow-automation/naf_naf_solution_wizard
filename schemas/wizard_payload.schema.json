@@ -1,0 +1,630 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/eianow-automation/naf_naf_solution_wizard/schemas/wizard_payload.schema.json",
+  "title": "NAF Solution Wizard Payload",
+  "description": "Schema for the NAF Solution Wizard JSON payload containing all automation initiative data",
+  "type": "object",
+  "properties": {
+    "initiative": {
+      "type": "object",
+      "description": "Core initiative information including title, description, and problem statement",
+      "properties": {
+        "author": {
+          "type": "string",
+          "description": "Name of the person creating this automation initiative",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the automation initiative",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description or scope of the initiative",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the automation initiative",
+          "enum": [
+            "Configuration Management",
+            "Device Onboarding",
+            "Software Upgrades",
+            "State Verification and Compliance",
+            "Self-Service Tools",
+            "Network Inventory and Discovery",
+            "Monitoring and Troubleshooting",
+            "Policy and Security Management",
+            "Orchestration and Workflow Automation",
+            "Cloud and Hybrid Network Integration",
+            "Intent-Based Automation",
+            "Application Connectivity",
+            "Peer Validation",
+            "End User Testing",
+            "Text Summary",
+            "Observability",
+            "Incident Response",
+            "Security Policy Management",
+            "Other"
+          ]
+        },
+        "category_other": {
+          "type": "string",
+          "description": "Custom category when 'Other' is selected",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "problem_statement": {
+          "type": "string",
+          "description": "Problem statement describing the issue to be solved",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "expected_use": {
+          "type": "string",
+          "description": "Expected use cases for the automation",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "error_conditions": {
+          "type": "string",
+          "description": "Error conditions and handling",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "assumptions": {
+          "type": "string",
+          "description": "Assumptions made about the automation",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "deployment_strategy": {
+          "type": "string",
+          "description": "Deployment strategy for the automation",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "deployment_strategy_other": {
+          "type": "string",
+          "description": "Custom deployment strategy when 'Other' is selected",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "deployment_strategy_description": {
+          "type": "string",
+          "description": "Description of the deployment strategy",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "out_of_scope": {
+          "type": "string",
+          "description": "Items explicitly out of scope for this initiative",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "no_move_forward": {
+          "type": "string",
+          "description": "Whether the initiative should not move forward",
+          "enum": ["", "No", "Yes"]
+        },
+        "no_move_forward_reasons": {
+          "type": "array",
+          "description": "Reasons why the initiative should not move forward",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": ["title", "description", "category"],
+      "additionalProperties": false
+    },
+    "my_role": {
+      "type": "object",
+      "description": "Information about the user's role in the initiative",
+      "properties": {
+        "who": {
+          "type": "string",
+          "description": "User's role in the initiative",
+          "enum": [
+            "— Select one —",
+            "Network Engineer",
+            "Network Architect",
+            "Automation Engineer",
+            "DevOps Engineer",
+            "Security Engineer",
+            "Cloud Engineer",
+            "Site Reliability Engineer",
+            "Other"
+          ]
+        },
+        "skills": {
+          "type": "string",
+          "description": "User's skill level",
+          "enum": [
+            "— Select one —",
+            "Beginner",
+            "Intermediate",
+            "Advanced",
+            "Expert"
+          ]
+        },
+        "developer": {
+          "type": "string",
+          "description": "Whether the user will develop the automation",
+          "enum": [
+            "— Select one —",
+            "Yes, I will develop",
+            "No, someone else will develop",
+            "No, we will purchase"
+          ]
+        }
+      },
+      "required": ["who", "skills", "developer"],
+      "additionalProperties": false
+    },
+    "stakeholders": {
+      "type": "object",
+      "description": "Stakeholder information for the initiative",
+      "properties": {
+        "choices": {
+          "type": "object",
+          "description": "Stakeholder selections by category",
+          "patternProperties": {
+            ".*": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "other": {
+          "type": "string",
+          "description": "Other stakeholder information",
+          "minLength": 0,
+          "maxLength": 500
+        }
+      },
+      "required": ["choices"],
+      "additionalProperties": false
+    },
+    "presentation": {
+      "type": "object",
+      "description": "Presentation layer information",
+      "properties": {
+        "users": {
+          "type": "string",
+          "description": "Target users for the automation",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "interaction": {
+          "type": "string",
+          "description": "Interaction patterns",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "tools": {
+          "type": "string",
+          "description": "Presentation tools",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "auth": {
+          "type": "string",
+          "description": "Authentication methods",
+          "minLength": 0,
+          "maxLength": 500
+        }
+      },
+      "required": ["users", "interaction", "tools", "auth"],
+      "additionalProperties": false
+    },
+    "intent": {
+      "type": "object",
+      "description": "Intent and development information",
+      "properties": {
+        "will_develop": {
+          "type": "string",
+          "description": "What will be developed",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "have": {
+          "type": "string",
+          "description": "What is already available",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "formats": {
+          "type": "string",
+          "description": "Data formats to be provided",
+          "minLength": 0,
+          "maxLength": 500
+        }
+      },
+      "required": ["will_develop", "have", "formats"],
+      "additionalProperties": false
+    },
+    "observability": {
+      "type": "object",
+      "description": "Observability and monitoring information",
+      "properties": {
+        "health_signals": {
+          "type": "string",
+          "description": "Health signals to monitor",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "go_no_go": {
+          "type": "string",
+          "description": "Go/no-go criteria",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "tools": {
+          "type": "string",
+          "description": "Observability tools",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "add_logic": {
+          "type": "string",
+          "description": "Additional observability logic",
+          "minLength": 0,
+          "maxLength": 500
+        }
+      },
+      "required": ["health_signals", "go_no_go", "tools"],
+      "additionalProperties": false
+    },
+    "orchestration": {
+      "type": "object",
+      "description": "Orchestration information",
+      "properties": {
+        "selections": {
+          "type": "object",
+          "description": "Orchestration selections",
+          "properties": {
+            "choice": {
+              "type": "string",
+              "description": "Orchestration choice",
+              "enum": [
+                "— Select one —",
+                "No",
+                "Ansible",
+                "Python",
+                "Nornir",
+                "Netmiko",
+                "NAPALM",
+                "PyATS",
+                "SaltStack",
+                "Cisco NSO",
+                "Other"
+              ]
+            },
+            "details": {
+              "type": "string",
+              "description": "Orchestration details",
+              "minLength": 0,
+              "maxLength": 1000
+            }
+          },
+          "required": ["choice", "details"]
+        }
+      },
+      "required": ["selections"],
+      "additionalProperties": false
+    },
+    "collector": {
+      "type": "object",
+      "description": "Data collector information",
+      "properties": {
+        "methods": {
+          "type": "string",
+          "description": "Data collection methods",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "auth": {
+          "type": "string",
+          "description": "Authentication for data collection",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "normalization": {
+          "type": "string",
+          "description": "Data normalization approach",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "scale": {
+          "type": "string",
+          "description": "Scale considerations",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "tools": {
+          "type": "string",
+          "description": "Data collection tools",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "cadence": {
+          "type": "string",
+          "description": "Collection cadence",
+          "minLength": 0,
+          "maxLength": 500
+        }
+      },
+      "required": ["methods", "auth", "normalization", "scale", "tools"],
+      "additionalProperties": false
+    },
+    "executor": {
+      "type": "object",
+      "description": "Executor information",
+      "properties": {
+        "methods": {
+          "type": "string",
+          "description": "Execution methods",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "change": {
+          "type": "string",
+          "description": "Change execution approach",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "intent": {
+          "type": "string",
+          "description": "Intent execution approach",
+          "minLength": 0,
+          "maxLength": 500
+        }
+      },
+      "required": ["methods", "change", "intent"],
+      "additionalProperties": false
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "External system dependencies",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the dependency",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "details": {
+            "type": "string",
+            "description": "Details about the dependency",
+            "minLength": 0,
+            "maxLength": 500
+          }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      },
+      "uniqueItems": true
+    },
+    "timeline": {
+      "type": "object",
+      "description": "Timeline and staffing information",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "description": "Project start date in YYYY-MM-DD format",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "total_business_days": {
+          "type": "integer",
+          "description": "Total business days for the project",
+          "minimum": 0
+        },
+        "projected_completion": {
+          "type": ["string", "null"],
+          "description": "Projected completion date in YYYY-MM-DD format",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "build_buy": {
+          "type": "string",
+          "description": "Build or buy decision",
+          "enum": ["Build", "Buy"]
+        },
+        "staff_count": {
+          "type": "integer",
+          "description": "Number of staff members",
+          "minimum": 0
+        },
+        "external_staff_count": {
+          "type": "integer",
+          "description": "Number of external staff members",
+          "minimum": 0
+        },
+        "staffing_plan_md": {
+          "type": "string",
+          "description": "Staffing plan in markdown format",
+          "minLength": 0
+        },
+        "holiday_region": {
+          "type": "string",
+          "description": "Holiday region for timeline calculations",
+          "enum": ["US", "EU", "UK", "Global", "None"]
+        },
+        "items": {
+          "type": "array",
+          "description": "Timeline items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the timeline item",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "duration_bd": {
+                "type": "integer",
+                "description": "Duration in business days",
+                "minimum": 0
+              },
+              "start": {
+                "type": "string",
+                "description": "Start date in YYYY-MM-DD format",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "end": {
+                "type": "string",
+                "description": "End date in YYYY-MM-DD format",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "notes": {
+                "type": "string",
+                "description": "Notes about the timeline item",
+                "minLength": 0,
+                "maxLength": 500
+              }
+            },
+            "required": ["name", "duration_bd", "start", "end", "notes"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["start_date", "total_business_days", "projected_completion", "build_buy", "staff_count", "external_staff_count", "staffing_plan_md", "holiday_region", "items"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["initiative", "my_role", "stakeholders", "presentation", "intent", "observability", "orchestration", "collector", "executor", "dependencies", "timeline"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "initiative": {
+        "author": "John Doe",
+        "title": "Network Device Configuration Automation",
+        "description": "Automate configuration updates for network devices",
+        "category": "Configuration Management",
+        "category_other": "",
+        "problem_statement": "Manual configuration updates are error-prone and time-consuming",
+        "expected_use": "This automation will be used for all network configuration changes",
+        "error_conditions": "Device unreachable, invalid configuration syntax",
+        "assumptions": "Devices have SSH access enabled",
+        "deployment_strategy": "Phased rollout",
+        "deployment_strategy_other": "",
+        "deployment_strategy_description": "Roll out in phases starting with non-production devices",
+        "out_of_scope": "Physical device installation",
+        "no_move_forward": "",
+        "no_move_forward_reasons": []
+      },
+      "my_role": {
+        "who": "Network Engineer",
+        "skills": "Intermediate",
+        "developer": "Yes, I will develop"
+      },
+      "stakeholders": {
+        "choices": {
+          "Network Operations": ["Network Engineers", "Network Architects"],
+          "Security": ["Security Engineers"]
+        },
+        "other": ""
+      },
+      "presentation": {
+        "users": "Network Engineers, Network Architects",
+        "interaction": "Web-based interface with CLI option",
+        "tools": "Streamlit, Flask",
+        "auth": "LDAP, SAML"
+      },
+      "intent": {
+        "will_develop": "Configuration management automation with validation",
+        "have": "Device inventory, backup systems",
+        "formats": "JSON, YAML, CSV"
+      },
+      "observability": {
+        "health_signals": "Configuration success/failure, device reachability",
+        "go_no_go": "Pre-change validation, post-change verification",
+        "tools": "Prometheus, Grafana, Splunk",
+        "add_logic": "Alert on configuration failures"
+      },
+      "orchestration": {
+        "selections": {
+          "choice": "Ansible",
+          "details": "Using Ansible playbooks with Jinja2 templates"
+        }
+      },
+      "collector": {
+        "methods": "SSH API calls, SNMP",
+        "auth": "SSH keys, SNMPv3",
+        "normalization": "Standardized device models",
+        "scale": "Up to 10,000 devices",
+        "tools": "Netmiko, NAPALM",
+        "cadence": "On-demand, nightly inventory"
+      },
+      "executor": {
+        "methods": "SSH, REST API",
+        "change": "Transactional changes with rollback",
+        "intent": "Declarative configuration with validation"
+      },
+      "dependencies": [
+        {
+          "name": "network_infra",
+          "details": "Network infrastructure with SSH access"
+        },
+        {
+          "name": "revision_control",
+          "details": "GitHub repository for configuration templates"
+        },
+        {
+          "name": "monitoring_system",
+          "details": "Prometheus for metrics collection"
+        }
+      ],
+      "timeline": {
+        "start_date": "2024-01-15",
+        "total_business_days": 60,
+        "projected_completion": "2024-04-15",
+        "build_buy": "Build",
+        "staff_count": 2,
+        "external_staff_count": 0,
+        "staffing_plan_md": "1 Network Engineer, 1 Automation Engineer",
+        "holiday_region": "US",
+        "items": [
+          {
+            "name": "Requirements gathering",
+            "duration_bd": 5,
+            "start": "2024-01-15",
+            "end": "2024-01-19",
+            "notes": "Collect requirements from stakeholders"
+          },
+          {
+            "name": "Development",
+            "duration_bd": 40,
+            "start": "2024-01-22",
+            "end": "2024-03-15",
+            "notes": "Develop automation framework"
+          },
+          {
+            "name": "Testing",
+            "duration_bd": 10,
+            "start": "2024-03-18",
+            "end": "2024-03-29",
+            "notes": "Test in lab environment"
+          },
+          {
+            "name": "Deployment",
+            "duration_bd": 5,
+            "start": "2024-04-01",
+            "end": "2024-04-05",
+            "notes": "Deploy to production"
+          }
+        ]
+      }
+    }
+  ]
+}
