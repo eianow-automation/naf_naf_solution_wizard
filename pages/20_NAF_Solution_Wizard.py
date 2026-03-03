@@ -1957,6 +1957,7 @@ def solution_wizard_main():
             "Other IT Organizations",
             "Any User",
             "Authorized Users",
+            "Automation Pipeline",
         ]
         user_checks = {}
         for i, opt in enumerate(user_opts):

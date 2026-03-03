@@ -64,6 +64,7 @@ def main() -> None:
         - Team members who will design or build the automation
         - Stakeholders who need to understand what the automation will do
         - Management who need a concise overview of scope, impact, and effort
+        - Other IT Teams with supporting required interfaces and services
         """
     )
 
