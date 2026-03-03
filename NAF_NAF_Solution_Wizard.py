@@ -43,7 +43,7 @@ def main() -> None:
     st.markdown("### Design Your Automation Solution")
     st.markdown(
         """
-        The Solution Wizard guides you through each NAF component as well as additional consdierations for your automation solution:
+        The Solution Wizard guides you through each NAF component as well as additional considerations for your automation solution:
         
         - **Initiative**: Define the problem, scope, expected use, and deployment strategy
         - **Stakeholders**: Identify who is supporting the project
