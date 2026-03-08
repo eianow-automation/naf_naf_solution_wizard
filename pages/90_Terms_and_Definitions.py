@@ -23,7 +23,7 @@ import utils
 # Page config for consistent favicon across all pages
 st.set_page_config(
     page_title="Terms & Definitions",
-    page_icon="images/EIA_Favicon.png",
+    page_icon="images/naf_favicon-96x96.png",
     layout="wide",
 )
 

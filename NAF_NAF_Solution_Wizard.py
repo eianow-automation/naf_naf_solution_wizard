@@ -23,7 +23,7 @@ def main() -> None:
 
     st.set_page_config(
         page_title="NAF NAF Wizard App",
-        page_icon="images/EIA_Favicon.png",
+        page_icon="images/naf_favicon-96x96.png",
         layout="wide",
     )
 
