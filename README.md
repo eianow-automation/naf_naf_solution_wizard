@@ -1,6 +1,6 @@
 <p align="center">
   <img src="images/naf_icon.png" alt="NAF" width="80" style="vertical-align:middle;margin-right:12px;" />
-  <img src="images/EIA_Favicon.png" alt="EIA" width="80" style="vertical-align:middle;" />
+  <img src="images/logo_transp.jpg" alt="NAFNAF" width="80" style="vertical-align:middle;margin-right:12px;" />
 </p>
 
 # NAF Solution Wizard
@@ -119,3 +119,8 @@ The schema defines the structure for all 11 sections of the wizard payload, incl
 
 Apache License
 Version 2.0
+
+
+<p align="center">
+  <img src="images/EIA_Favicon.png" alt="EIA" width="80" style="vertical-align:middle;" />
+</p>

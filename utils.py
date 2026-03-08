@@ -105,6 +105,17 @@ def render_global_sidebar() -> None:
             margin="0.5rem 0",
         )
 
+        # Additional logo
+        logo_transp_base64 = get_image_base64("images/logo_trim.png")
+        if logo_transp_base64:
+            st.markdown(
+                f'<img src="data:image/jpeg;base64,{logo_transp_base64}" width="100%" style="margin-bottom: 1rem;">',
+                unsafe_allow_html=True
+            )
+        else:
+            # Fallback to non-clickable image if base64 fails
+            st.image("images/logo_trim.png", width="stretch")
+
         # Bottom NAF branding bar with NAF icon
 
         _naf_logo_col, _naf_link_col = st.columns([1, 2])
