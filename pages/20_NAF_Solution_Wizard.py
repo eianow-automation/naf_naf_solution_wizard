@@ -55,8 +55,6 @@ except Exception:  # pragma: no cover
 # Default values to avoid repetition
 DEFAULT_TITLE = "My new network automation project"
 DEFAULT_DESCRIPTION = "Here is a short description of my new network automation project"
-DEFAULT_DEPLOYMENT_STRATEGY_PLACEHOLDER = "— Select a deployment strategy —"
-DEFAULT_CATEGORY_PLACEHOLDER = "— Select a category —"
 
 
 # Utility functions moved to utils.py - local aliases for brevity
@@ -575,11 +573,11 @@ def solution_wizard_main():
             )
             st.session_state["_wizard_error_conditions"] = ""
             st.session_state["_wizard_assumptions"] = ""
-            st.session_state["_wizard_deployment_strategy"] = DEFAULT_DEPLOYMENT_STRATEGY_PLACEHOLDER
+            st.session_state["_wizard_deployment_strategy"] = ""
             st.session_state["_wizard_deployment_strategy_other"] = ""
             st.session_state["_wizard_deployment_strategy_description"] = ""
             st.session_state["_wizard_out_of_scope"] = ""
-            st.session_state["_wizard_category"] = DEFAULT_CATEGORY_PLACEHOLDER
+            st.session_state["_wizard_category"] = ""
             st.session_state["_wizard_category_other"] = ""
             st.session_state["no_move_forward"] = ""
             # Set no_move_forward_reasons to placeholder for reset
@@ -777,7 +775,7 @@ def solution_wizard_main():
                                 elif (
                                     deploy_strategy
                                     and deploy_strategy
-                                    != DEFAULT_DEPLOYMENT_STRATEGY_PLACEHOLDER
+                                    != ""
                                 ):
                                     # It's a custom strategy, put it in "Other"
                                     st.session_state["_wizard_deployment_strategy"] = (
@@ -789,7 +787,7 @@ def solution_wizard_main():
                                 else:
                                     # Empty or placeholder
                                     st.session_state["_wizard_deployment_strategy"] = (
-                                        DEFAULT_DEPLOYMENT_STRATEGY_PLACEHOLDER
+                                        ""
                                     )
                                     st.session_state[
                                         "_wizard_deployment_strategy_other"
@@ -1433,7 +1431,7 @@ def solution_wizard_main():
     col_img, col_text = st.columns([1, 1])
     with col_img:
         st.image(
-            "images/naf_arch_framework_figure.png",
+            "images/naf_arch_framework_figure2.png",
             width="stretch",
         )
         st.caption(
@@ -1496,7 +1494,7 @@ def solution_wizard_main():
         if "_wizard_assumptions" not in st.session_state:
             st.session_state["_wizard_assumptions"] = ""
         if "_wizard_deployment_strategy" not in st.session_state:
-            st.session_state["_wizard_deployment_strategy"] = DEFAULT_DEPLOYMENT_STRATEGY_PLACEHOLDER
+            st.session_state["_wizard_deployment_strategy"] = ""
         if "_wizard_deployment_strategy_other" not in st.session_state:
             st.session_state["_wizard_deployment_strategy_other"] = ""
         if "_wizard_deployment_strategy_description" not in st.session_state:
@@ -1504,7 +1502,7 @@ def solution_wizard_main():
         if "_wizard_out_of_scope" not in st.session_state:
             st.session_state["_wizard_out_of_scope"] = ""
         if "_wizard_category" not in st.session_state:
-            st.session_state["_wizard_category"] = DEFAULT_CATEGORY_PLACEHOLDER
+            st.session_state["_wizard_category"] = ""
         if "_wizard_category_other" not in st.session_state:
             st.session_state["_wizard_category_other"] = ""
 
@@ -1536,27 +1534,20 @@ def solution_wizard_main():
             category_options = list(categories_data.keys()) if categories_data else []
         except Exception:
             category_options = []
-        # Add placeholder as first option
-        placeholder = DEFAULT_CATEGORY_PLACEHOLDER
-        category_options_with_placeholder = [placeholder] + category_options
-        current_cat = st.session_state.get("_wizard_category", "") or placeholder
-        if current_cat not in category_options_with_placeholder:
-            current_cat = "Other"
+        current_cat = st.session_state.get("_wizard_category", "")
+        if current_cat not in category_options + ["Other"]:
+            current_cat = ""
         cat = st.selectbox(
             "Category",
-            options=category_options_with_placeholder,
-            index=(
-                category_options_with_placeholder.index(current_cat)
-                if current_cat in category_options_with_placeholder
-                else 0
-            ),
+            options=category_options + ["Other"],
             key="_wizard_category",
+            placeholder="Choose a category",
             help=(
                 "Select a category from the list. Choose 'Other' if your initiative "
                 "doesn't fit the predefined categories."
             ),
         )
-        if cat == placeholder:
+        if not cat:
             st.info("💡 Please select a category from the list above.")
             initiative_category = ""
         elif cat == "Other":
@@ -1617,36 +1608,17 @@ def solution_wizard_main():
             deploy_options = list(deploy_data.keys()) if deploy_data else []
         except Exception:
             deploy_options = []
-        # Add placeholder and "Other" options
-        deploy_placeholder = DEFAULT_DEPLOYMENT_STRATEGY_PLACEHOLDER
-        deploy_options_with_placeholder = (
-            [deploy_placeholder] + deploy_options + ["Other"]
-        )
-
-        # Initialize the session state if not set
-        if "_wizard_deployment_strategy" not in st.session_state:
-            st.session_state["_wizard_deployment_strategy"] = deploy_placeholder
-        if "_wizard_deployment_strategy_other" not in st.session_state:
-            st.session_state["_wizard_deployment_strategy_other"] = ""
-
+        # Add "Other" option
+        deploy_options_with_other = deploy_options + ["Other"]
         current_deploy = st.session_state.get(
-            "_wizard_deployment_strategy", deploy_placeholder
+            "_wizard_deployment_strategy", ""
         )
-        if current_deploy not in deploy_options_with_placeholder and current_deploy != deploy_placeholder:
-            # If the current value is not in the list and not the placeholder, move it to "Other"
-            st.session_state["_wizard_deployment_strategy_other"] = current_deploy
-            current_deploy = "Other"
-            st.session_state["_wizard_deployment_strategy"] = "Other"
 
         deploy_sel = st.selectbox(
             "Standard Deployment Strategy",
-            options=deploy_options_with_placeholder,
-            index=(
-                deploy_options_with_placeholder.index(current_deploy)
-                if current_deploy in deploy_options_with_placeholder
-                else 0
-            ),
+            options=deploy_options + ["Other"],
             key="_wizard_deployment_strategy",
+            placeholder="Choose a deployment strategy",
             help="Select a standard deployment strategy from the list or choose 'Other' to enter a custom strategy.",
         )
 
@@ -1658,7 +1630,7 @@ def solution_wizard_main():
                 help="Enter your custom deployment strategy name.",
                 placeholder="e.g., Pilot Program",
             )
-        elif deploy_sel == deploy_placeholder:
+        elif not deploy_sel:
             st.info("💡 Please select a deployment strategy from the list above.")
 
         st.text_area(
@@ -1679,32 +1651,17 @@ def solution_wizard_main():
             "We risk continuing to add technical debt to the logical infrastructure",
         ]
 
-        # Initialize default if not set (widget key is set directly during JSON upload)
-        if "no_move_forward_reasons" not in st.session_state:
-            st.session_state["no_move_forward_reasons"] = [
-                "— Select one or more risks —"
-            ]
-
-        # Add placeholder as first option
-        risk_placeholder = "— Select one or more risks —"
-        risk_options_with_placeholder = [risk_placeholder] + standard_reasons
-
         no_move_forward_reasons = st.multiselect(
             "Risk of not doing the automation",
-            options=risk_options_with_placeholder,
+            options=standard_reasons,
             key="no_move_forward_reasons",
-            help="Select at least one standard reason that applies.",
+            help="Select one or more risks that apply to your project. These reasons help justify the automation investment.",
+            placeholder="Choose one or more options",
         )
 
-        # Remove placeholder if selected
-        if risk_placeholder in no_move_forward_reasons:
-            no_move_forward_reasons = [
-                x for x in no_move_forward_reasons if x != risk_placeholder
-            ]
-
-        # Show warning if no standard reasons selected
+        # Show warning if no reasons selected
         if not no_move_forward_reasons:
-            st.info("💡 Please select at least one standard reason.")
+            st.info("💡 Please select at least one risk factor to justify the automation.")
 
         # Initialize default if not set
         if "no_move_forward" not in st.session_state:
@@ -1738,7 +1695,7 @@ def solution_wizard_main():
             "assumptions": st.session_state.get("_wizard_assumptions", ""),
             "deployment_strategy": (
                 actual_deployment_strategy
-                if actual_deployment_strategy != DEFAULT_DEPLOYMENT_STRATEGY_PLACEHOLDER
+                if actual_deployment_strategy != ""
                 else ""
             ),
             "deployment_strategy_description": st.session_state.get(

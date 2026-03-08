@@ -80,31 +80,6 @@ def render_global_sidebar() -> None:
     hr_color_dict = hr_colors()
 
     with st.sidebar:
-        # Top branding: logo and EIA links
-        col_logo, col_links = st.columns([1, 2])
-        with col_logo:
-            # Get base64 encoded image
-            logo_base64 = get_image_base64("images/EIA Logo FINAL small_Round.png")
-            if logo_base64:
-                st.markdown(
-                    f'[<img src="data:image/png;base64,{logo_base64}" width="100%">](https://eianow.com)',
-                    unsafe_allow_html=True
-                )
-            else:
-                # Fallback to non-clickable image if base64 fails
-                st.image("images/EIA Logo FINAL small_Round.png", width="stretch")
-        with col_links:
-            st.markdown("[🏠 EIA Home](https://eianow.com)")
-            st.markdown(
-                "[[in] EIA on LinkedIn](https://www.linkedin.com/company/eianow/)"
-            )
-
-        thick_hr(
-            color=hr_color_dict.get("eia_blue", "#92c0e4"),
-            thickness=6,
-            margin="0.5rem 0",
-        )
-
         # Additional logo
         logo_transp_base64 = get_image_base64("images/logo_trim.png")
         if logo_transp_base64:

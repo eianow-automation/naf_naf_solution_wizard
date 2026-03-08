@@ -107,3 +107,23 @@ if __name__ == "__main__":
             - The authors and contributors shall not be liable for any losses or damages arising from use of or reliance on the results.
             """
         )
+
+    st.markdown("---")
+    
+    # Sponsored by EIA section
+    col_logo, col_links = st.columns([1, 3])
+    with col_logo:
+        # Get base64 encoded image
+        logo_base64 = utils.get_image_base64("images/EIA Logo FINAL small_Round.png")
+        if logo_base64:
+            st.markdown(
+                f'[<img src="data:image/png;base64,{logo_base64}" width="50%">](https://eianow.com)',
+                unsafe_allow_html=True
+            )
+        else:
+            # Fallback to non-clickable image if base64 fails
+            st.image("images/EIA Logo FINAL small_Round.png", width=50)
+    
+    with col_links:
+        st.markdown("### Sponsored by EIA")
+        st.markdown("[🏠 EIA Home](https://eianow.com) | [[in] EIA on LinkedIn](https://www.linkedin.com/company/eianow/)")
