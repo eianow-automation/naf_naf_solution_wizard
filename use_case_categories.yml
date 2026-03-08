@@ -1,4 +1,9 @@
-Configuration Management: Automating device configuration updates, backups, and version control to ensure consistency and reduce errors.
+Configuration Management ITIL4/5: Automates tracking and maintenance of configuration items (CIs) like network devices, relationships, and changes via CMDB integrations and API-driven audits to support decision-making. Automating device configuration updates, backups, and version control to ensure consistency and reduce errors. (ITIL4/5)
+Troubleshooting - Problem Management ITIL4/5: Automates investigation of recurring incidents using AI-driven root cause analysis, script-based workarounds, and proactive alerting to prevent future issues (ITIL4/5)
+Incident Management ITIL4/5: Automates logging, prioritization, and resolution of service disruptions through ticketing workflows, AI triage, and tiered escalation bots in NOCs (ITIL4/5)
+Monitoring/Observability ITIL4/5: Automates continuous infrastructure watching with event correlation engines, alert filtering, and scripted response actions for full visibility (ITIL4/5)
+Capacity Management ITIL4/5: Automates demand forecasting, resource planning (e.g., bandwidth, compute), and SLA compliance via predictive analytics and auto-scaling models (ITIL4/5)
+Change Management ITIL4/5: Automates evaluation, authorization, and implementation of changes (e.g., config updates) using CI/CD pipelines and risk assessment tools integrated with configuration records (ITIL4/5)
 Device Onboarding: Streamlining the process of adding new devices to the network, including initial configuration, security setup, and compliance validation.
 Software Upgrades: Automating the deployment of software and firmware updates across network devices for improved security and feature parity.
 State Verification and Compliance: Continuously checking network device configurations and states against templates or policies to ensure compliance and detect discrepancies.
